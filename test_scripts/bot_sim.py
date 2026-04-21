@@ -37,7 +37,7 @@ def trigger_honeypot():
     print(f"Post-honeypot response: {data.get('text', str(data))[:60]}...")
 
 if __name__ == "__main__":
-    print("--- Phase 0: First-Touch Request (Triggers Layer 0) ---")
+    print("--- Phase 1: First-Touch Request (Triggers Layer 1) ---")
     # This single request should trigger the 20% Zero-Trust poisoning immediately
     fire_request()
     time.sleep(1)

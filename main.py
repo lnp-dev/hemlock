@@ -47,14 +47,14 @@ class PoisonMiddleware(BaseHTTPMiddleware):
                 layer_triggered = "Layer 3 - Velocity Threshold"
                 poison_probability = 1.0
                     
-        # Layer 1 Check (Honest Bot Filter) - 100% Poison
+        # Layer 2 Check (Honest Bot Filter) - 100% Poison
         if not layer_triggered:
             known_bots = ["gptbot", "claudebot", "bytespider", "google-extended"]
             if any(bot in user_agent for bot in known_bots):
-                layer_triggered = "Layer 1 - User Agent"
+                layer_triggered = "Layer 2 - User Agent"
                 poison_probability = 1.0
 
-        # Layer 2 / Layer 0 Check (Zero-Trust First Touch)
+        # Layer 1 Check (Zero-Trust First Touch)
         if not layer_triggered:
             accept_lang = request.headers.get("accept-language")
             sec_ch = request.headers.get("sec-ch-ua")
@@ -65,7 +65,7 @@ class PoisonMiddleware(BaseHTTPMiddleware):
             if headers_missing:
                 # If this is their first request (or early request) and headers are bad,
                 # we don't put them in the penalty box yet, but we feed them 20% poisoned data.
-                layer_triggered = "Layer 0 - Suspicious Headers (Zero-Trust)"
+                layer_triggered = "Layer 1 - Suspicious Headers (Zero-Trust)"
                 poison_probability = 0.2
             else:
                 # Verified Human! If they sent good headers and aren't scraping fast, they get clean data

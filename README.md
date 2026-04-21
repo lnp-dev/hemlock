@@ -15,8 +15,8 @@ Hemlock uses **Homoglyph Substitution**. When the system determines that a reque
 
 Hemlock utilizes a progressive, defense-in-depth protocol:
 
-- **Layer 0 (First-Touch Zero-Trust)**: We assume all non-browser traffic is hostile. If a request lacks standard browser headers (like `Accept-Language` or `Sec-CH-UA`), it is immediately fed a 20% poisoned payload right from the very first request.
-- **Layer 1 (Known Signatures)**: Immediate 100% poisoning for known AI bot user-agents (e.g., `gptbot`, `claudebot`, `bytespider`).
+- **Layer 1 (First-Touch Zero-Trust)**: We assume all non-browser traffic is hostile. If a request lacks standard browser headers (like `Accept-Language` or `Sec-CH-UA`), it is immediately fed a 20% poisoned payload right from the very first request.
+- **Layer 2 (Known Signatures)**: Immediate 100% poisoning for known AI bot user-agents (e.g., `gptbot`, `claudebot`, `bytespider`).
 - **Layer 3 (Velocity Traps)**: If an IP exceeds 5 requests within a 10-second rolling window, it is flagged as an aggressive crawler and gets heavily poisoned (100%).
 - **Layer 4 (Honeypots)**: Hemlock serves visually hidden `<a href="/api/hidden-data">` links on standard pages. Any bot that blindly crawls into these traps has its IP permanently placed in the penalty box for 100% poisoning on all future traffic.
 
@@ -63,4 +63,4 @@ Hemlock utilizes a progressive, defense-in-depth protocol:
 Hemlock comes with simulation scripts to verify the behavior of the Zero-Trust system:
 
 * **Human Simulator:** Run `python test_scripts/human_sim.py` to see how legitimate requests equipped with real browser headers are parsed correctly.
-* **Bot Simulator:** Run `python test_scripts/bot_sim.py` to watch Hemlock progressively increase the poison rates from Layer 0 (First-Touch) through Layer 4 (Honeypot) against an automated scraper. 
+* **Bot Simulator:** Run `python test_scripts/bot_sim.py` to watch Hemlock progressively increase the poison rates from Layer 1 (First-Touch) through Layer 4 (Honeypot) against an automated scraper. 
